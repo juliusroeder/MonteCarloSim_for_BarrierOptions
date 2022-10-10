@@ -14,7 +14,7 @@
 #define BILLION 1000000000L
 #define MILLION 1000000L
 
-__global__ void simulation_kernel(
+__global__ void  down_and_out_call_kernel(
         const float* rand_num,
         const float K,
         const float B,
@@ -52,6 +52,9 @@ __global__ void simulation_kernel(
 
 Simulator::Simulator(simulation_params *simParams) {
     params = simParams;
+
+
+
 }
 
 Simulator::~Simulator() {
@@ -61,7 +64,6 @@ Simulator::~Simulator() {
 
 void Simulator::prepGpu(){
     ////  allocate space on GPU
-//    std::vector<float> rands(params->m_nRandNum);
     cudaMalloc(&d_answer, sizeof(float));
     cudaMalloc((void**)&rand_num, params->m_nRandNum * sizeof(float));
 
@@ -85,21 +87,26 @@ void Simulator::prepCpu(){
     std::generate(begin(cpu_rands), end(cpu_rands), gen);
 }
 
-void Simulator::runGpuSim(){
-
-    ////  call Kernel
+void Simulator::downAndOutCallKernel(){
     int numBlocks = ceil((float)params->c_nPath/512.0f);
-    simulation_kernel<<<numBlocks, 512>>>(rand_num, params->c_K, params->c_B, params->c_S0, params->c_sigma, params->c_mu,
-                                          params->m_dt, params->c_nPath, params->c_nSteps, d_answer);
-
-    cudaMemcpy(&h_answer, d_answer, sizeof(float), cudaMemcpyDeviceToHost);
-
-    std::cout << "GPU result " << params->m_exponent * h_answer/params->c_nPath << std::endl;
-
-//    cudaMemcpy(&rands[0], rand_num, N_RAND_NUMBERS * sizeof(float), cudaMemcpyDeviceToHost);
+    down_and_out_call_kernel<<<numBlocks, 512>>>(rand_num, params->c_K, params->c_B, params->c_S0, params->c_sigma,
+                                                 params->c_mu, params->m_dt, params->c_nPath, params->c_nSteps, d_answer);
 }
 
-void Simulator::runCpuSim(){
+void Simulator::runGpuSim(){
+    ////  call Kernel
+    if (params->c_type == "down_and_out_call") {
+        downAndOutCallKernel();
+    }else if (params->c_type.empty()){
+        std::cout << "No option type specified." << std::endl;
+        throw;
+    }
+
+    cudaMemcpy(&h_answer, d_answer, sizeof(float), cudaMemcpyDeviceToHost);
+    std::cout << "GPU result " << params->m_exponent * h_answer/params->c_nPath << std::endl;
+}
+
+void Simulator::runCpuSim(){ //down_and_out call option
 
     float payoff = 0;
     unsigned ii = 0;

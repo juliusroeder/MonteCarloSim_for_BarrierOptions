@@ -17,7 +17,6 @@ int main(int argc, char ** argv) {
     auto parser = std::make_unique<input_parser>(csv_path, &simulation_parameters);
     parser->parse();
 
-
     for (auto sp: simulation_parameters){
         auto sim = std::make_unique<Simulator>(&sp);
         sim->runSimulation();

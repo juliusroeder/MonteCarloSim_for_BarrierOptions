@@ -6,6 +6,7 @@
 #define CUDAPROJECTS_SIMULATOR_CUH
 
 #include <vector>
+#include <map>
 #include "../simulation_params.h"
 
 class Simulator {
@@ -25,6 +26,8 @@ private:
     void prepCpu();
     void runCpuSim();
     void runGpuSim();
+
+    void downAndOutCallKernel();
 };
 
 

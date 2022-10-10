@@ -26,6 +26,7 @@ void input_parser::parse() {
 
     // option parameters
     float T, K, B, S0, sigma, mu, r;
+    std::string type;
 
     while (getline(fileHandler, line)) {
         boost::split(res, line, boost::is_any_of(","));
@@ -39,7 +40,8 @@ void input_parser::parse() {
         sigma = stof(res[6]);
         mu = stof(res[7]);
         r = stof(res[8]);
+        type = res[9];
 
-        vector->emplace_back(N_PATH, N_STEPS, T, K, B, S0, sigma, mu, r);
+        vector->emplace_back(N_PATH, N_STEPS, T, K, B, S0, sigma, mu, r, type);
     }
 }
