@@ -4,7 +4,7 @@
 
 #include "input_parser.h"
 
-input_parser::input_parser(boost::filesystem::path file_path, std::vector<simulation_params> *pVector) {
+input_parser::input_parser(boost::filesystem::path file_path, std::vector<SimulationParameters> *pVector) {
     path = std::move(file_path);
     vector = pVector;
 }
@@ -41,6 +41,7 @@ void input_parser::parse() {
         mu = stof(res[7]);
         r = stof(res[8]);
         type = res[9];
+        boost::trim(type);
 
         vector->emplace_back(N_PATH, N_STEPS, T, K, B, S0, sigma, mu, r, type);
     }

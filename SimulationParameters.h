@@ -2,14 +2,14 @@
 // Created by Julius Roeder on 04/10/2022.
 //
 
-#ifndef CUDAPROJECTS_SIMULATION_PARAMS_H
-#define CUDAPROJECTS_SIMULATION_PARAMS_H
+#ifndef CUDAPROJECTS_SIMULATIONPARAMETERS_H
+#define CUDAPROJECTS_SIMULATIONPARAMETERS_H
 
 #include <string>
 
-class simulation_params {
+class SimulationParameters {
 public:
-    simulation_params(long N_PATH, long N_STEPS, float T, float K, float B, float S0, float sigma, float mu, float r, std::string option_type);
+    SimulationParameters(long N_PATH, long N_STEPS, float T, float K, float B, float S0, float sigma, float mu, float r, std::string option_type);
 
 //  simulation parameters
     const long c_nPath;
@@ -33,4 +33,4 @@ public:
 };
 
 
-#endif //CUDAPROJECTS_SIMULATION_PARAMS_H
+#endif //CUDAPROJECTS_SIMULATIONPARAMETERS_H

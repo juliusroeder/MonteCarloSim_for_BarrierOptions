@@ -8,19 +8,19 @@
 #include <boost/filesystem.hpp>
 #include <bits/stdc++.h>
 #include <boost/algorithm/string.hpp>
-#include "../simulation_params.h"
+#include "../SimulationParameters.h"
 #include <iostream>
 
 class input_parser {
 
 public:
-    input_parser(boost::filesystem::path file_path, std::vector<simulation_params> *pVector);
+    input_parser(boost::filesystem::path file_path, std::vector<SimulationParameters> *pVector);
     ~input_parser() = default;
     void parse();
 
 private:
     boost::filesystem::path path;
-    std::vector<simulation_params> * vector;
+    std::vector<SimulationParameters> * vector;
 };
 
 

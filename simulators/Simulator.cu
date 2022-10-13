@@ -29,7 +29,7 @@ __global__ void  down_and_out_call_kernel(
     unsigned int index = threadIdx.x + blockIdx.x * blockDim.x;
     unsigned int index_rand_num = index * N_STEP ;
 
-    __shared__ float partial_payoff;
+    __shared__ float partial_payoff; // using shared memory is roughly 4ms faster for 10^6 paths than atomic adds to global memory
     if (threadIdx.x == 0) partial_payoff=0;
     if (index == 0) *d_answer = 0;
     __syncthreads();
@@ -50,11 +50,8 @@ __global__ void  down_and_out_call_kernel(
     if (threadIdx.x==0) atomicAdd(d_answer, partial_payoff); //thread 0 in a block adds the block payoff to the global payoff
 }
 
-Simulator::Simulator(simulation_params *simParams) {
+Simulator::Simulator(SimulationParameters *simParams) {
     params = simParams;
-
-
-
 }
 
 Simulator::~Simulator() {

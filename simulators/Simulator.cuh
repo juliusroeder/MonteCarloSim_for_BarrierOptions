@@ -7,11 +7,11 @@
 
 #include <vector>
 #include <map>
-#include "../simulation_params.h"
+#include "../SimulationParameters.h"
 
 class Simulator {
 public:
-    Simulator(simulation_params *simParams);
+    Simulator(SimulationParameters *simParams);
     void runSimulation();
     ~Simulator();
 
@@ -19,7 +19,7 @@ private:
     float h_answer;
     float* d_answer;
     float* rand_num;
-    simulation_params *params;
+    SimulationParameters *params;
     std::vector<float> cpu_rands;
 
     void prepGpu();

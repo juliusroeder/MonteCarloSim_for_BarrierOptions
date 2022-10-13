@@ -12,7 +12,7 @@ find_package(Boost REQUIRED COMPONENTS
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(CudaProjects main.cpp simulators/Simulator.cu simulators/Simulator.cuh parsers/input_parser.cpp
-        parsers/input_parser.h simulation_params.cpp simulation_params.h)
+        parsers/input_parser.h simulationParameters.cpp SimulationParameters.h)
 
 set_target_properties(CudaProjects PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
